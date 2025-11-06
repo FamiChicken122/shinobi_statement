@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shinobi_statement/service/riverpod/riverpod.dart';
 import 'package:shinobi_statement/src/common_component/common_component.dart';
 
-class ScenarioScreen extends StatelessWidget {
+class ScenarioScreen extends ConsumerWidget {
   const ScenarioScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final characters = ref.read(characterProvider);
     return Column(
       children: [
         Row(
@@ -25,6 +28,16 @@ class ScenarioScreen extends StatelessWidget {
           ],
         ),
         CommonUpDownButton(direction: Direction.up, onTap: () => {}),
+        CommonText.title(
+          characters.when(
+            data: (items) {
+              print(items.first.keys.first == "" ? "AAA" : "BBB");
+              return items.first.keys.first;
+            },
+            error: (_, __) => "",
+            loading: () => "",
+          ),
+        ),
       ],
     );
   }
