@@ -2,12 +2,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
 
-// サンプル
-Future<List> fetchCharacters() async {
+Stream<List<Map<String, dynamic>>> fetchCharacters() {
   try {
-    final response = await supabase
-        .from('character') // テーブル名
-        .select(); // 全ての列を選択; // 作成日時で降順ソート
+    final response = supabase
+        .from('character')
+        .stream(primaryKey: ['character_id'])
+        .map((item) => item);
 
     return response;
   } catch (error) {
