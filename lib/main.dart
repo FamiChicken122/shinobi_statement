@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shinobi_statement/service/bloc/bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shinobi_statement/src/colors/colors.dart';
 import 'package:shinobi_statement/src/screens/screen_base.dart';
@@ -21,9 +23,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(useMaterial3: true),
-      home: Scaffold(
-        body: const ScreenBase(),
-        backgroundColor: commonColors.background,
+      home: BlocProvider(
+        create: (_) => CharacterBloc(),
+        child: Scaffold(
+          body: const ScreenBase(),
+          backgroundColor: commonColors.background,
+        ),
       ),
     );
   }
