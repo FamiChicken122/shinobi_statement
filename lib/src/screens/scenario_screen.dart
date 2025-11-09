@@ -30,14 +30,40 @@ class ScenarioScreen extends StatelessWidget {
               ],
             ),
             CommonUpDownButton(direction: Direction.up, onTap: () => {}),
-            CommonText.title(
-              state.characters.isEmpty
-                  ? 'test'
-                  : state.characters.first.entries.first.key,
-            ),
+            _TestWidget(state),
           ],
         );
       },
+    );
+  }
+}
+
+class _TestWidget extends StatelessWidget {
+  const _TestWidget(this.state);
+
+  final CharacterState state;
+
+  @override
+  Widget build(BuildContext context) {
+    final list = state.characters;
+
+    if (list.isEmpty) {
+      return CommonText.title("Empty");
+    }
+
+    final widgets = <Widget>[];
+    list.forEach((key, value) {
+      widgets.add(CommonText.title(key.toString()));
+      widgets.add(CommonText.title(value.toString()));
+    });
+    return SizedBox(
+      height: 400,
+      child: ListView.builder(
+        itemCount: widgets.length,
+        itemBuilder: (context, index) {
+          return ListTile(title: widgets[index]);
+        },
+      ),
     );
   }
 }
