@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shinobi_statement/service/bloc/bloc.dart';
-import 'package:shinobi_statement/src/common_component/common_component.dart';
+
+import '../../service/bloc/character_bloc.dart';
+import '../common_component/common_component.dart';
 
 class ScenarioScreen extends StatelessWidget {
   const ScenarioScreen({super.key});
@@ -10,7 +11,6 @@ class ScenarioScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CharacterBloc, CharacterState>(
       builder: (context, state) {
-        print(state.characters);
         return Column(
           children: [
             Row(
@@ -30,7 +30,11 @@ class ScenarioScreen extends StatelessWidget {
               ],
             ),
             CommonUpDownButton(direction: Direction.up, onTap: () => {}),
-            // CommonText.title(state.characters.first.entries.first.key),
+            CommonText.title(
+              state.characters.isEmpty
+                  ? 'test'
+                  : state.characters.first.entries.first.key,
+            ),
           ],
         );
       },

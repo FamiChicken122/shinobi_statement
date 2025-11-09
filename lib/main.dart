@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shinobi_statement/service/bloc/bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:shinobi_statement/src/colors/colors.dart';
-import 'package:shinobi_statement/src/screens/screen_base.dart';
+
+import 'service/bloc/bloc.dart';
+import 'src/colors/colors.dart';
+import 'src/screens/screen_base.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,8 +24,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(useMaterial3: true),
-      home: BlocProvider(
-        create: (_) => CharacterBloc(),
+      home: MultiBlocProvider(
+        providers: multiBlocProvider,
         child: Scaffold(
           body: const ScreenBase(),
           backgroundColor: commonColors.background,

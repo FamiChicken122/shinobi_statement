@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shinobi_statement/src/common_component/common_component.dart';
-import 'package:shinobi_statement/src/screens/scenario_screen.dart';
+
+import '../common_component/common_component.dart';
+import 'scenario_screen.dart';
 
 class ScreenBase extends StatelessWidget {
   const ScreenBase({super.key});

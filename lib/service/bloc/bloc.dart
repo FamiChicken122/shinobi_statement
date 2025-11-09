@@ -1,25 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shinobi_statement/service/supabase/supabase.dart';
 
-abstract class _CharacterEvent {}
+import 'character_bloc.dart';
+import 'scenario_bloc.dart';
 
-class FetchEvent extends _CharacterEvent {}
+final _character = BlocProvider(create: (_) => CharacterBloc());
+final _scenario = BlocProvider(create: (_) => ScenarioBloc());
 
-class CharacterState {
-  const CharacterState({required this.characters});
-
-  final List<Map<String, dynamic>> characters;
-}
-
-class CharacterBloc extends Bloc<_CharacterEvent, CharacterState> {
-  CharacterBloc() : super(CharacterState(characters: [])) {
-    on<FetchEvent>(_onFetch);
-    add(FetchEvent());
-  }
-
-  Future<void> _onFetch(FetchEvent event, Emitter<CharacterState> emit) async {
-    fetchCharacters().listen((data) {
-      emit(CharacterState(characters: data));
-    });
-  }
-}
+final multiBlocProvider = [_character, _scenario];
