@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shinobi_statement/src/screens/screen.dart';
 
 import '../../service/bloc/screen_bloc.dart';
 import '../../service/bloc/character_bloc.dart';
@@ -11,17 +12,20 @@ class CharacterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CharacterBloc, CharacterRecords>(
-      builder: (context, state) {
-        return Column(
-          children: [
-            CommonUpDownButton(
-              direction: Direction.up,
-              onTap: () {
-                context.read<ScreenBloc>().add(const BackHomeEvent());
-              },
-            ),
-          ],
+    return BlocBuilder<ScreenBloc, ScreenState>(
+      builder: (context, screenState) {
+        return BlocBuilder<CharacterBloc, CharacterRecords>(
+          builder: (context, characterRecords) {
+            return CommonPane(
+              selected: screenState.currentScreen,
+              onTapScreenButton: (Screen screen) =>
+                  context.read<ScreenBloc>().add(
+                    ShowScreenEvent(
+                      screen: screen,
+                    ),
+                  ),
+            );
+          },
         );
       },
     );

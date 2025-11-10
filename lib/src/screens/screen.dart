@@ -8,6 +8,7 @@ enum Screen {
   publicInfo,
   secret,
   place,
+  ougi,
   emotion,
   unwell,
   combatEffect;
@@ -19,6 +20,7 @@ enum Screen {
     // publicInfo => const PublicInfoScreen(),
     // secret => const SecretScreen(),
     // place => const PlaceScreen(),
+    // ougi => const OugiScreen(),
     // emotion => const EmotionScreen(),
     // unwell => const UnwellScreen(),
     // combatEffect => const CombatEffectScreen(),

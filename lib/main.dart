@@ -34,3 +34,9 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+/// TODO
+/// 各画面のView作成
+/// 左ペインのタブ作成
+/// supabaseへのinsert/update実行
+/// 認証の理解

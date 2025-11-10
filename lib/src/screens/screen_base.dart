@@ -11,15 +11,19 @@ class ScreenBase extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ScreenBloc, ScreenState>(
       builder: (context, state) {
-        return Stack(
-          children: [
-            Column(
-              children: [
-                SizedBox(height: 80, child: _BackButtonBar()),
-                state.currentScreen.screenWidget,
-              ],
-            ),
-          ],
+        final size = MediaQuery.of(context).size;
+        return SizedBox.fromSize(
+          size: size,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  SizedBox(height: 80, child: _BackButtonBar()),
+                  state.currentScreen.screenWidget,
+                ],
+              ),
+            ],
+          ),
         );
       },
     );
