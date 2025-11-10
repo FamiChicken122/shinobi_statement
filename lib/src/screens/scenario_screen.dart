@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shinobi_statement/service/bloc/scenario_bloc.dart';
+import 'package:shinobi_statement/service/bloc/screen_bloc.dart';
 import 'package:shinobi_statement/service/supabase/data_class.dart';
+import 'package:shinobi_statement/src/screens/screen.dart';
 
 import '../common_component/common_component.dart';
 
@@ -30,7 +32,14 @@ class ScenarioScreen extends StatelessWidget {
                 CommonFloatingButton(title: 'title', onTap: () => {}),
               ],
             ),
-            CommonUpDownButton(direction: Direction.up, onTap: () => {}),
+            CommonUpDownButton(
+              direction: Direction.up,
+              onTap: () {
+                context.read<ScreenBloc>().add(
+                  ShowScreenEvent(screen: Screen.character),
+                );
+              },
+            ),
             _TestWidget(state),
           ],
         );
