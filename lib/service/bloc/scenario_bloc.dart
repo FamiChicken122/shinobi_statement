@@ -5,25 +5,22 @@ import '../supabase/supabase.dart';
 
 abstract class _ScenarioEvent {}
 
-class FetchEvent extends _ScenarioEvent {}
+class _FetchEvent extends _ScenarioEvent {}
 
-class ScenarioState {
-  const ScenarioState({required this.scenario});
-
-  final Map<int, Scenario> scenario;
-}
-
-class ScenarioBloc extends Bloc<_ScenarioEvent, ScenarioState> {
-  ScenarioBloc() : super(ScenarioState(scenario: {})) {
-    on<FetchEvent>(_onFetch);
-    add(FetchEvent());
+class ScenarioBloc extends Bloc<_ScenarioEvent, ScenarioRecords> {
+  ScenarioBloc() : super(ScenarioRecords()) {
+    on<_FetchEvent>(_onFetch);
+    add(_FetchEvent());
   }
 
-  Future<void> _onFetch(FetchEvent event, Emitter<ScenarioState> emit) async {
-    await emit.forEach<Map<int, Scenario>>(
+  Future<void> _onFetch(
+    _FetchEvent event,
+    Emitter<ScenarioRecords> emit,
+  ) async {
+    await emit.forEach<ScenarioRecords>(
       subscribeScenarios(),
-      onData: (data) => ScenarioState(scenario: data),
-      onError: (_, __) => ScenarioState(scenario: {}),
+      onData: (data) => data,
+      onError: (_, __) => ScenarioRecords(),
     );
   }
 }

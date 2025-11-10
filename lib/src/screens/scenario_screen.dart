@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shinobi_statement/service/bloc/scenario_bloc.dart';
+import 'package:shinobi_statement/service/supabase/data_class.dart';
 
-import '../../service/bloc/character_bloc.dart';
 import '../common_component/common_component.dart';
 
 class ScenarioScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class ScenarioScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CharacterBloc, CharacterState>(
+    return BlocBuilder<ScenarioBloc, ScenarioRecords>(
       builder: (context, state) {
         return Column(
           children: [
@@ -41,20 +42,18 @@ class ScenarioScreen extends StatelessWidget {
 class _TestWidget extends StatelessWidget {
   const _TestWidget(this.state);
 
-  final CharacterState state;
+  final ScenarioRecords state;
 
   @override
   Widget build(BuildContext context) {
-    final list = state.characters;
-
-    if (list.isEmpty) {
+    if (state.isEmpty) {
       return CommonText.title("Empty");
     }
 
     final widgets = <Widget>[];
-    list.forEach((key, value) {
+    state.forEach((key, value) {
       widgets.add(CommonText.title(key.toString()));
-      widgets.add(CommonText.title(value.toString()));
+      widgets.add(CommonText.title(value.name));
     });
     return SizedBox(
       height: 400,

@@ -5,25 +5,22 @@ import '../supabase/supabase.dart';
 
 abstract class _CharacterEvent {}
 
-class FetchEvent extends _CharacterEvent {}
+class _FetchEvent extends _CharacterEvent {}
 
-class CharacterState {
-  const CharacterState({required this.characters});
-
-  final Map<int, Character> characters;
-}
-
-class CharacterBloc extends Bloc<_CharacterEvent, CharacterState> {
-  CharacterBloc() : super(CharacterState(characters: {})) {
-    on<FetchEvent>(_onFetch);
-    add(FetchEvent());
+class CharacterBloc extends Bloc<_CharacterEvent, CharacterRecords> {
+  CharacterBloc() : super(CharacterRecords()) {
+    on<_FetchEvent>(_onFetch);
+    add(_FetchEvent());
   }
 
-  Future<void> _onFetch(FetchEvent event, Emitter<CharacterState> emit) async {
-    await emit.forEach<Map<int, Character>>(
+  Future<void> _onFetch(
+    _FetchEvent event,
+    Emitter<CharacterRecords> emit,
+  ) async {
+    await emit.forEach<CharacterRecords>(
       subscribeCharacters(),
-      onData: (data) => CharacterState(characters: data),
-      onError: (error, stackTrace) => CharacterState(characters: {}),
+      onData: (data) => data,
+      onError: (error, stackTrace) => CharacterRecords(),
     );
   }
 }

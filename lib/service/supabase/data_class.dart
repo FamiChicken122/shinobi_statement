@@ -1,3 +1,12 @@
+typedef ScenarioRecords = Map<int, Scenario>;
+typedef CharacterRecords = Map<int, Character>;
+typedef EmotionRecords = Map<int, Emotion>;
+typedef SecretRecords = Map<int, Secret>;
+typedef OugiRecords = Map<int, Ougi>;
+typedef LocationRecords = Map<int, Location>;
+typedef UnwellRecords = Map<int, Unwell>;
+typedef CombatEffectRecords = Map<int, CombatEffect>;
+
 class Scenario {
   const Scenario({
     required this.id,
