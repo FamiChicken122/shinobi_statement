@@ -25,36 +25,53 @@ class CommonPane extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            children: [
-              for (final screen in _leftList) ...[
-                _Chip(
-                  screen: screen,
-                  onTap: () => onTapScreenButton(screen),
-                  isSelected: selected == screen,
-                ),
-              ],
-            ],
-          ),
-        ),
-        Spacer(flex: 4),
-        Expanded(
-          child: Column(
-            children: [
-              for (final screen in _rightList) ...[
-                _Chip(
-                  screen: screen,
-                  onTap: () => onTapScreenButton(screen),
-                  isSelected: selected == screen,
-                ),
-              ],
-            ],
-          ),
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final screenHeight = constraints.maxHeight;
+        final screenWidth = constraints.maxWidth;
+        final buttonHeight = (screenHeight - 80) / 4;
+        final buttonWidth = (screenWidth / 6).clamp(80.0, double.infinity);
+
+        return Row(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  for (final screen in _leftList) ...[
+                    Expanded(
+                      child: _Chip(
+                        screen: screen,
+                        onTap: () => onTapScreenButton(screen),
+                        isSelected: screen == selected,
+                        buttonWidth: buttonWidth,
+                        buttonHeight: buttonHeight,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            Spacer(flex: 4),
+            Expanded(
+              child: Column(
+                children: [
+                  for (final screen in _rightList) ...[
+                    Expanded(
+                      child: _Chip(
+                        screen: screen,
+                        onTap: () => onTapScreenButton(screen),
+                        isSelected: screen == selected,
+                        buttonWidth: buttonWidth,
+                        buttonHeight: buttonHeight,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -64,28 +81,25 @@ class _Chip extends StatelessWidget {
     required this.screen,
     required this.onTap,
     required this.isSelected,
+    required this.buttonWidth,
+    required this.buttonHeight,
   });
 
   final Screen screen;
   final void Function() onTap;
   final bool isSelected;
-
-  // ここらへんの動作がアカン
+  final double buttonWidth;
+  final double buttonHeight;
 
   @override
   Widget build(BuildContext context) {
-    final color = isSelected
-        ? commonColors.textBlack
-        : commonColors.buttonBackGround;
-    return Stack(
-      // fit: StackFit.expand,
-      children: [
-        ColoredBox(color: color),
-        GestureDetector(
-          child: CommonText.whiteTitle(screen.name),
-          onTap: () => onTap,
-        ),
-      ],
+    return SizedBox(
+      width: buttonWidth,
+      height: buttonHeight,
+      child: CommonFloatingButton(
+        title: screen.name,
+        onTap: onTap,
+      ),
     );
   }
 }

@@ -16,11 +16,10 @@ class ScreenBase extends StatelessWidget {
           size: size,
           child: Stack(
             children: [
-              Column(
-                children: [
-                  SizedBox(height: 80, child: _BackButtonBar()),
-                  state.currentScreen.screenWidget,
-                ],
+              SizedBox(height: 80, child: _BackButtonBar()),
+              Padding(
+                padding: const EdgeInsets.only(top: 80),
+                child: state.currentScreen.screenWidget,
               ),
             ],
           ),
