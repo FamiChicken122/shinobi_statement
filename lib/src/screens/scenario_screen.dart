@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shinobi_statement/service/bloc/scenario_bloc.dart';
 import 'package:shinobi_statement/service/bloc/screen_bloc.dart';
 import 'package:shinobi_statement/service/supabase/data_class.dart';
+import 'package:shinobi_statement/src/colors/colors.dart';
 import 'package:shinobi_statement/src/screens/screen.dart';
 
 import '../common_component/common_component.dart';
@@ -13,65 +14,80 @@ class ScenarioScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ScenarioBloc, ScenarioRecords>(
-      builder: (context, state) {
-        return Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CommonSelection<String>(
-                  values: ["A", "B", "C", "D"],
-                  label: (value) => switch (value) {
-                    "A" => "A",
-                    "B" => "B",
-                    "C" => "C",
-                    "D" => "D",
-                    _ => "",
-                  },
-                ),
-                CommonFloatingButton(title: 'title', onTap: () => {}),
-              ],
-            ),
-            CommonUpDownButton(
-              direction: Direction.up,
-              onTap: () {
-                context.read<ScreenBloc>().add(
-                  ShowScreenEvent(screen: Screen.character),
-                );
-              },
-            ),
-            _TestWidget(state),
-          ],
+      builder: (context, records) {
+        records[0] = Scenario(id: 0, name: 'シナリオ名');
+        return ListView.builder(
+          itemCount: records.length,
+          itemBuilder: (context, index) {
+            return _Scenario(scenario: records[index]!);
+          },
         );
       },
     );
   }
 }
 
-class _TestWidget extends StatelessWidget {
-  const _TestWidget(this.state);
+class _Scenario extends StatelessWidget {
+  const _Scenario({required this.scenario});
 
-  final ScenarioRecords state;
+  final Scenario scenario;
 
   @override
   Widget build(BuildContext context) {
-    if (state.isEmpty) {
-      return CommonText.title("Empty");
+    if (scenario.id == 0) {
+      return Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 240,
+                child: Center(child: CommonText.title('シナリオID')),
+              ),
+              Expanded(child: Center(child: CommonText.title(scenario.name))),
+            ],
+          ),
+          Divider(
+            color: commonColors.textBlack,
+            height: 1,
+          ),
+        ],
+      );
     }
-
-    final widgets = <Widget>[];
-    state.forEach((key, value) {
-      widgets.add(CommonText.title(key.toString()));
-      widgets.add(CommonText.title(value.name));
-    });
-    return SizedBox(
-      height: 400,
-      child: ListView.builder(
-        itemCount: widgets.length,
-        itemBuilder: (context, index) {
-          return ListTile(title: widgets[index]);
-        },
-      ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 240,
+              child: Center(child: CommonText.title(scenario.id.toString())),
+            ),
+            Expanded(
+              child: CommonFloatingButton(
+                onTap: () => context.read<ScreenBloc>().add(
+                  ShowScreenEvent(screen: Screen.character),
+                ),
+                title: scenario.name,
+                child: (String name) {
+                  return Row(
+                    children: [
+                      CommonText.whiteTitle(scenario.name),
+                      const Icon(Icons.chevron_right),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        Divider(
+          color: commonColors.textBlack,
+          height: 1,
+        ),
+      ],
     );
   }
 }

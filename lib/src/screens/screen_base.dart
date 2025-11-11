@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shinobi_statement/service/bloc/screen_bloc.dart';
+import 'package:shinobi_statement/src/screens/screen.dart';
 
 import '../common_component/common_component.dart';
 
@@ -39,11 +40,16 @@ class _BackButtonBar extends StatelessWidget {
         return Stack(
           alignment: AlignmentDirectional.centerStart,
           children: [
-            SizedBox(
-              width: 300,
-              child: CommonFloatingButton(title: 'Back', onTap: () => {}),
-            ),
-            Center(child: CommonText.title(state.currentScreen.name)),
+            if (state.currentScreen != Screen.scenario)
+              SizedBox(
+                width: 300,
+                child: CommonFloatingButton(
+                  title: 'Back',
+                  onTap: () =>
+                      context.read<ScreenBloc>().add(const BackHomeEvent()),
+                ),
+              ),
+            Center(child: CommonText.title(state.currentScreen.shownName)),
           ],
         );
       },

@@ -1,12 +1,10 @@
 part of '../common_component.dart';
 
-const _leftList = [
+const _list = [
   Screen.character,
   Screen.publicInfo,
   Screen.secret,
   Screen.place,
-];
-const _rightList = [
   Screen.ougi,
   Screen.emotion,
   Screen.unwell,
@@ -27,48 +25,22 @@ class CommonPane extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final screenHeight = constraints.maxHeight;
-        final screenWidth = constraints.maxWidth;
-        final buttonHeight = (screenHeight - 80) / 4;
-        final buttonWidth = (screenWidth / 6).clamp(80.0, double.infinity);
+        final buttonHeight = constraints.maxHeight / 8;
+        final buttonWidth = constraints.maxWidth / 6;
 
-        return Row(
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(
-              child: Column(
-                children: [
-                  for (final screen in _leftList) ...[
-                    Expanded(
-                      child: _Chip(
-                        screen: screen,
-                        onTap: () => onTapScreenButton(screen),
-                        isSelected: screen == selected,
-                        buttonWidth: buttonWidth,
-                        buttonHeight: buttonHeight,
-                      ),
-                    ),
-                  ],
-                ],
+            for (final screen in _list) ...[
+              _Chip(
+                screen: screen,
+                onTap: () => onTapScreenButton(screen),
+                isSelected: screen == selected,
+                buttonWidth: buttonWidth,
+                buttonHeight: buttonHeight,
               ),
-            ),
-            Spacer(flex: 4),
-            Expanded(
-              child: Column(
-                children: [
-                  for (final screen in _rightList) ...[
-                    Expanded(
-                      child: _Chip(
-                        screen: screen,
-                        onTap: () => onTapScreenButton(screen),
-                        isSelected: screen == selected,
-                        buttonWidth: buttonWidth,
-                        buttonHeight: buttonHeight,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
+            ],
           ],
         );
       },
@@ -93,11 +65,13 @@ class _Chip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = isSelected ? commonColors.textBlack : null;
     return SizedBox(
       width: buttonWidth,
       height: buttonHeight,
       child: CommonFloatingButton(
-        title: screen.name,
+        backgroundColor: color,
+        title: screen.paneTitle,
         onTap: onTap,
       ),
     );
