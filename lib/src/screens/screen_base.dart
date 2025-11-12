@@ -18,6 +18,19 @@ class ScreenBase extends StatelessWidget {
           child: Stack(
             children: [
               SizedBox(height: 80, child: _BackButtonBar()),
+              if (state.currentScreen != Screen.scenario)
+                Padding(
+                  padding: const EdgeInsets.only(top: 80),
+                  child: CommonPane(
+                    selected: state.currentScreen,
+                    onTapScreenButton: (Screen screen) =>
+                        context.read<ScreenBloc>().add(
+                          ShowScreenEvent(
+                            screen: screen,
+                          ),
+                        ),
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.only(top: 80),
                 child: state.currentScreen.screenWidget,
