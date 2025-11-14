@@ -13,28 +13,32 @@ class ScreenBase extends StatelessWidget {
     return BlocBuilder<ScreenBloc, ScreenState>(
       builder: (context, state) {
         final size = MediaQuery.of(context).size;
+        final mainScreen = switch (state.currentScreen) {
+          Screen.scenario => Screen.scenario.screenWidget,
+          _ => Row(
+            children: [
+              CommonPane(
+                selected: state.currentScreen,
+                onTapScreenButton: (Screen screen) {
+                  context.read<ScreenBloc>().add(
+                    ShowScreenEvent(screen: screen),
+                  );
+                },
+                paneWidth: 220.0,
+              ),
+              Expanded(child: state.currentScreen.screenWidget),
+            ],
+          ),
+        };
         return SizedBox.fromSize(
           size: size,
           child: Stack(
             children: [
-              SizedBox(height: 80, child: _BackButtonBar()),
-              if (state.currentScreen != Screen.scenario)
-                Padding(
-                  padding: const EdgeInsets.only(top: 80),
-                  child: CommonPane(
-                    selected: state.currentScreen,
-                    onTapScreenButton: (Screen screen) =>
-                        context.read<ScreenBloc>().add(
-                          ShowScreenEvent(
-                            screen: screen,
-                          ),
-                        ),
-                  ),
-                ),
               Padding(
                 padding: const EdgeInsets.only(top: 80),
-                child: state.currentScreen.screenWidget,
+                child: mainScreen,
               ),
+              SizedBox(height: 80, child: _BackButtonBar()),
             ],
           ),
         );

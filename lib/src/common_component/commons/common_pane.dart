@@ -1,6 +1,6 @@
 part of '../common_component.dart';
 
-const _list = [
+const List<Screen> _list = [
   Screen.character,
   Screen.publicInfo,
   Screen.secret,
@@ -16,17 +16,18 @@ class CommonPane extends StatelessWidget {
     super.key,
     required this.selected,
     required this.onTapScreenButton,
+    required this.paneWidth,
   });
 
   final Screen selected;
   final void Function(Screen screen) onTapScreenButton;
+  final double paneWidth;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final buttonHeight = constraints.maxHeight / 8;
-        final buttonWidth = constraints.maxWidth / 6;
+        final buttonHeight = constraints.maxHeight / _list.length;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +38,7 @@ class CommonPane extends StatelessWidget {
                 screen: screen,
                 onTap: () => onTapScreenButton(screen),
                 isSelected: screen == selected,
-                buttonWidth: buttonWidth,
+                buttonWidth: paneWidth,
                 buttonHeight: buttonHeight,
               ),
             ],
