@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../service/bloc/character_bloc.dart';
 import '../../service/supabase/data_class.dart';
@@ -120,7 +121,7 @@ class _FixedColumnTableScreen extends StatelessWidget {
   }
 
   Widget _buildDataCell(String text, double width, Color color) {
-    return Container(
+    StatelessWidget widget = Container(
       width: width,
       height: _cellHeight,
       decoration: BoxDecoration(
@@ -131,5 +132,16 @@ class _FixedColumnTableScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Text(text, overflow: TextOverflow.ellipsis),
     );
+
+    if (text.contains('https')) {
+      widget = GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () async {
+          await launchUrlString(text);
+        },
+        child: widget,
+      );
+    }
+    return widget;
   }
 }
