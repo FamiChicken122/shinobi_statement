@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shinobi_statement/service/bloc/screen_bloc.dart';
-import 'package:shinobi_statement/src/screens/screen.dart';
 
 import '../common_component/common_component.dart';
+import '../../service/bloc/screen_bloc.dart';
+import 'screen.dart';
 
 class ScreenBase extends StatelessWidget {
   const ScreenBase({super.key});

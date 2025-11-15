@@ -1,5 +1,6 @@
-import 'package:shinobi_statement/service/supabase/data_class.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'data_class.dart';
 
 final _supabase = Supabase.instance.client;
 

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shinobi_statement/src/screens/screen.dart';
+
+import '../../src/screens/screen.dart';
 
 abstract class _ScreenEvent {
   const _ScreenEvent();

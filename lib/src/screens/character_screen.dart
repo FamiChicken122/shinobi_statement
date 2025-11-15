@@ -21,60 +21,36 @@ class CharacterScreen extends StatelessWidget {
         });
         return _FixedColumnTableScreen(
           data: characterRecords.toList(),
-          nameLength: characterRecords.maxNameLength,
+          maxNameLength: characterRecords.maxNameLength,
         );
       },
     );
   }
 }
 
-extension CharacterExtension on CharacterRecords {
-  List<List<String>> toList() {
-    final list = <List<String>>[];
-    list.add(['名前', 'PC', '秘密', '居所', '感情', 'URL']);
-    forEach((key, value) {
-      list.add([
-        value.name,
-        value.isPc ? "PC" : "NPC",
-        value.hasSecret ? "◯" : "",
-        value.hasLocation ? "◯" : "",
-        value.hasEmotion ? "◯" : "",
-        value.sheetUrl ?? "",
-      ]);
-    });
-    return list;
-  }
-
-  int get maxNameLength {
-    int length = 0;
-    for (final character in values) {
-      final name = character.name;
-      if (name.length > length) length = name.length;
-    }
-    return length;
-  }
-}
-
 final double _cellHeight = 50.0;
-final double _scrollableColumnWidth = 80.0;
+final double _cellWidth = 160.0;
 
 class _FixedColumnTableScreen extends StatelessWidget {
-  const _FixedColumnTableScreen({required this.data, required this.nameLength});
+  const _FixedColumnTableScreen({
+    required this.data,
+    required this.maxNameLength,
+  });
 
   final List<List<String>> data;
-  final int nameLength;
+  final int maxNameLength;
 
   @override
   Widget build(BuildContext context) {
     final headerData = data.removeAt(0);
-    final double nameWidth = nameLength * 20;
+    final double nameWidth = maxNameLength * 40;
     final list = <List<Widget>>[];
     for (int i = 0; i < headerData.length; i++) {
       list.add([]);
       final isStart = i == 0;
       final headerCell = _buildHeaderCell(
         headerData[i],
-        isStart ? nameWidth : _scrollableColumnWidth,
+        isStart ? nameWidth : _cellWidth,
         isStart ? Colors.blueGrey : Colors.blueGrey.shade700,
       );
       list[i].add(headerCell);
@@ -84,7 +60,7 @@ class _FixedColumnTableScreen extends StatelessWidget {
         final isStart = j == 0;
         final cell = _buildDataCell(
           data[i][j],
-          isStart ? nameWidth : _scrollableColumnWidth,
+          isStart ? nameWidth : _cellWidth,
           isStart ? Colors.white : Colors.grey.shade50,
         );
         list[j].add(cell);
@@ -121,27 +97,40 @@ class _FixedColumnTableScreen extends StatelessWidget {
   }
 
   Widget _buildDataCell(String text, double width, Color color) {
-    StatelessWidget widget = Container(
-      width: width,
-      height: _cellHeight,
-      decoration: BoxDecoration(
-        color: color,
-        border: Border.all(color: Colors.grey.shade300, width: 0.5),
-      ),
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Text(text, overflow: TextOverflow.ellipsis),
-    );
+    StatelessWidget widget(Widget child) {
+      return Container(
+        width: width,
+        height: _cellHeight,
+        decoration: BoxDecoration(
+          color: color,
+          border: Border.all(color: Colors.grey.shade300, width: 0.5),
+        ),
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: child,
+      );
+    }
 
-    if (text.contains('https')) {
-      widget = GestureDetector(
+    if (text.contains('https://')) {
+      return GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () async {
           await launchUrlString(text);
         },
-        child: widget,
+        child: widget(
+          CommonText.blueBasic(
+            text,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    } else {
+      return widget(
+        CommonText.blackBasic(
+          text,
+          overflow: TextOverflow.ellipsis,
+        ),
       );
     }
-    return widget;
   }
 }

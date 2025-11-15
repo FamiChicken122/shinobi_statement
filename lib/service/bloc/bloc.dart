@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shinobi_statement/service/bloc/screen_bloc.dart';
 
+import 'screen_bloc.dart';
 import 'character_bloc.dart';
 import 'scenario_bloc.dart';
 

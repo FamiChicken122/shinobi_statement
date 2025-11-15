@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shinobi_statement/service/bloc/character_bloc.dart';
-import 'package:shinobi_statement/service/bloc/scenario_bloc.dart';
-import 'package:shinobi_statement/service/bloc/screen_bloc.dart';
-import 'package:shinobi_statement/service/supabase/data_class.dart';
-import 'package:shinobi_statement/src/colors/colors.dart';
-import 'package:shinobi_statement/src/screens/screen.dart';
+
+import '../../service/bloc/character_bloc.dart';
+import '../../service/bloc/scenario_bloc.dart';
+import '../../service/bloc/screen_bloc.dart';
+import '../../service/supabase/data_class.dart';
+import '../colors/colors.dart';
+import 'screen.dart';
 
 import '../common_component/common_component.dart';
 

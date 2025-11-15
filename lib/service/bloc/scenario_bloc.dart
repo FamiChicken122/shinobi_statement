@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shinobi_statement/service/supabase/data_class.dart';
 
 import '../supabase/supabase.dart';
+import '../supabase/data_class.dart';
 
 abstract class _ScenarioEvent {}
 

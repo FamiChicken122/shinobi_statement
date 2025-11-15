@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shinobi_statement/service/supabase/data_class.dart';
 
 import '../supabase/supabase.dart';
+import '../supabase/data_class.dart';
 
 abstract class _CharacterEvent {
   const _CharacterEvent();
@@ -34,5 +34,32 @@ class CharacterBloc extends Bloc<_CharacterEvent, CharacterRecords> {
       },
       onError: (error, stackTrace) => CharacterRecords(),
     );
+  }
+}
+
+extension CharacterExtension on CharacterRecords {
+  List<List<String>> toList() {
+    final list = <List<String>>[];
+    list.add(['名前', 'PC', '秘密', '居所', '感情', 'URL']);
+    forEach((key, value) {
+      list.add([
+        value.name,
+        value.isPc ? "PC" : "NPC",
+        value.hasSecret ? "◯" : "",
+        value.hasLocation ? "◯" : "",
+        value.hasEmotion ? "◯" : "",
+        value.sheetUrl ?? "",
+      ]);
+    });
+    return list;
+  }
+
+  int get maxNameLength {
+    int length = 0;
+    for (final character in values) {
+      final name = character.name;
+      if (name.length > length) length = name.length;
+    }
+    return length;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:shinobi_statement/src/screens/character_screen.dart';
-import 'package:shinobi_statement/src/screens/scenario_screen.dart';
+
+import 'character_screen.dart';
+import 'scenario_screen.dart';
 
 enum Screen {
   scenario,
