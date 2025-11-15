@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(useMaterial3: true),
+      scrollBehavior: _MyCustomScrollBehavior(),
       home: MultiBlocProvider(
         providers: multiBlocProvider,
         child: Scaffold(
@@ -33,6 +36,14 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+class _MyCustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }
 
 /// TODO
