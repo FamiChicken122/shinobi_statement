@@ -103,7 +103,7 @@ Future<Map<int, EmotionsList>> fetchEmotionsList() async {
   }
 }
 
-Future<Map<int, UnwellsList>> fetchUnwelllsList() async {
+Future<Map<int, UnwellsList>> fetchUnwellsList() async {
   try {
     final response = await _supabase.from('unwells_list').select();
     final map = <int, UnwellsList>{};

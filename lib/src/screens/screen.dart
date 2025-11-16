@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import 'character_screen.dart';
 import 'scenario_screen.dart';
+import 'emotion_screen.dart';
 
 enum Screen {
   scenario,
@@ -17,12 +18,12 @@ enum Screen {
   StatelessWidget get screenWidget => switch (this) {
     scenario => const ScenarioScreen(),
     character => const CharacterScreen(),
+    emotion => const EmotionScreen(),
     _ => const CharacterScreen(),
     // publicInfo => const PublicInfoScreen(),
     // secret => const SecretScreen(),
     // place => const PlaceScreen(),
     // ougi => const OugiScreen(),
-    // emotion => const EmotionScreen(),
     // unwell => const UnwellScreen(),
     // combatEffect => const CombatEffectScreen(),
   };
