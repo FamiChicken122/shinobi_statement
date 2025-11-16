@@ -17,11 +17,14 @@ class ScenarioScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ScenarioBloc, ScenarioRecords>(
       builder: (context, records) {
-        records[0] = Scenario(id: 0, name: 'シナリオ名');
+        records[0] = Scenario(id: 0, name: 'シナリオ名', createdBy: '作成者');
         return ListView.builder(
           itemCount: records.length,
           itemBuilder: (context, index) {
-            return _Scenario(scenario: records[index]!);
+            return _Scenario(
+              scenario: records[index]!,
+              createdByWidth: records.createdByLength,
+            );
           },
         );
       },
@@ -30,9 +33,10 @@ class ScenarioScreen extends StatelessWidget {
 }
 
 class _Scenario extends StatelessWidget {
-  const _Scenario({required this.scenario});
+  const _Scenario({required this.scenario, required this.createdByWidth});
 
   final Scenario scenario;
+  final int createdByWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +47,11 @@ class _Scenario extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 240,
-                child: Center(child: CommonText.title('シナリオID')),
-              ),
               Expanded(child: Center(child: CommonText.title(scenario.name))),
+              SizedBox(
+                width: createdByWidth * 100,
+                child: Center(child: CommonText.title(scenario.createdBy)),
+              ),
             ],
           ),
           Divider(
@@ -63,10 +67,6 @@ class _Scenario extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              width: 240,
-              child: Center(child: CommonText.title(scenario.id.toString())),
-            ),
             Expanded(
               child: CommonFloatingButton(
                 onTap: () {
@@ -87,6 +87,10 @@ class _Scenario extends StatelessWidget {
                   );
                 },
               ),
+            ),
+            SizedBox(
+              width: createdByWidth * 100,
+              child: Center(child: CommonText.title(scenario.createdBy)),
             ),
           ],
         ),

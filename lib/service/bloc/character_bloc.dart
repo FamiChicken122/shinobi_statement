@@ -55,7 +55,7 @@ extension CharacterExtension on CharacterRecords {
   }
 
   int get maxNameLength {
-    int length = 0;
+    int length = 4;
     for (final character in values) {
       final name = character.name;
       if (name.length > length) length = name.length;

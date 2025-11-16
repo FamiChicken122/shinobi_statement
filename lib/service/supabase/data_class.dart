@@ -11,10 +11,12 @@ class Scenario {
   const Scenario({
     required this.id,
     required this.name,
+    required this.createdBy,
   });
 
   final int id;
   final String name;
+  final String createdBy;
 }
 
 class Character {

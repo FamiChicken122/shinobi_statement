@@ -62,20 +62,27 @@ class _FixedColumnTableScreen extends StatelessWidget {
           data[i][j],
           isStart ? nameWidth : _cellWidth,
           isStart ? Colors.white : Colors.grey.shade50,
+          isStart ? Alignment.centerLeft : Alignment.center,
         );
         list[j].add(cell);
       }
     }
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          for (final column in list)
-            Column(
-              children: column,
-            ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              for (final column in list)
+                Column(
+                  children: column,
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -86,17 +93,16 @@ class _FixedColumnTableScreen extends StatelessWidget {
       height: _cellHeight,
       color: color,
       alignment: Alignment.center,
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
+      child: CommonText.whiteBasic(text),
     );
   }
 
-  Widget _buildDataCell(String text, double width, Color color) {
+  Widget _buildDataCell(
+    String text,
+    double width,
+    Color color,
+    Alignment alignment,
+  ) {
     StatelessWidget widget(Widget child) {
       return Container(
         width: width,
@@ -105,7 +111,7 @@ class _FixedColumnTableScreen extends StatelessWidget {
           color: color,
           border: Border.all(color: Colors.grey.shade300, width: 0.5),
         ),
-        alignment: Alignment.centerLeft,
+        alignment: alignment,
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: child,
       );

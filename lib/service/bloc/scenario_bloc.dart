@@ -24,3 +24,16 @@ class ScenarioBloc extends Bloc<_ScenarioEvent, ScenarioRecords> {
     );
   }
 }
+
+extension ScenarioRecordsExt on ScenarioRecords {
+  int get createdByLength {
+    int length = 0;
+    for (final scenario in values) {
+      final nameLength = scenario.createdBy.length;
+      if (nameLength > length) {
+        length = nameLength;
+      }
+    }
+    return length;
+  }
+}

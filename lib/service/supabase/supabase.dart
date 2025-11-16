@@ -46,7 +46,11 @@ Stream<Map<int, Scenario>> subscribeScenarios() {
           final map = <int, Scenario>{};
           for (final record in list) {
             final id = record['scenario_id'];
-            final scenario = Scenario(id: id, name: record['scenario_name']);
+            final scenario = Scenario(
+              id: id,
+              name: record['scenario_name'],
+              createdBy: record['created_by'] ?? '',
+            );
             map[id] = scenario;
           }
           return map;
