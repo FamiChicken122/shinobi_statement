@@ -38,19 +38,28 @@ class CharacterBloc extends Bloc<_CharacterEvent, CharacterRecords> {
 }
 
 extension CharacterExtension on CharacterRecords {
+  List<Character> get _characterList {
+    final sortedKeys = keys.toList()..sort();
+    final list = <Character>[];
+    for (final key in sortedKeys) {
+      list.add(this[key]!);
+    }
+    return list;
+  }
+
   List<List<String>> toList() {
     final list = <List<String>>[];
     list.add(['名前', 'PC', '秘密', '居所', '感情', 'URL']);
-    forEach((key, value) {
+    for (final character in _characterList) {
       list.add([
-        value.name,
-        value.isPc ? "PC" : "NPC",
-        value.hasSecret ? "◯" : "",
-        value.hasLocation ? "◯" : "",
-        value.hasEmotion ? "◯" : "",
-        value.sheetUrl ?? "",
+        character.name,
+        character.isPc ? "PC" : "NPC",
+        character.hasSecret ? "◯" : "",
+        character.hasLocation ? "◯" : "",
+        character.hasEmotion ? "◯" : "",
+        character.sheetUrl ?? "",
       ]);
-    });
+    }
     return list;
   }
 
@@ -61,5 +70,14 @@ extension CharacterExtension on CharacterRecords {
       if (name.length > length) length = name.length;
     }
     return length;
+  }
+
+  Map<(int, int), String> get secretDetails {
+    final map = <(int, int), String>{};
+    for (int i = 0; i < length; i++) {
+      final character = _characterList[i];
+      map[(i + 1, 0)] = character.secretDetail ?? 'Secret';
+    }
+    return map;
   }
 }
